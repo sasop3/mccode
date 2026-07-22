@@ -73,9 +73,25 @@ function DigNLayers(num,layerSize)
     end
 end
 
+function DigNLayers(depth,x,y)
+    for i= 1,depth,1
+    do
+        turtleSide = turnLoop(turtleSide,false)
+        DigOneSquareLayer(x,y)
+
+        if i ~= depth then
+            turtle.digDown()
+            turtle.down()
+            --Turns 180
+            turtle.turnLeft() 
+            turtle.turnLeft()
+        end
+    end
+end
+
 
 function main()
-    
+    DigNLayers(10,8,8)
 end
 
 
