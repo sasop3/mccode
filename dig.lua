@@ -1,8 +1,20 @@
 local turtleSide = "right"
+local desiredBlocks = {"minecraft:end_stone"}
 
-
-function checkBlock(...)
+function CheckBlocks(...)
     local blocks = {...}
+    blockExists,block = turtle.inspect()
+    if (blockExists) then
+    for i=1,#blocks do
+        if(block.name == blocks[i])
+        then
+            error("BLOCK FOUND")
+        end
+    end
+    end
+end
+
+function CheckBlocks(blocks)
     blockExists,block = turtle.inspect()
     if (blockExists) then
     for i=1,#blocks do
@@ -19,6 +31,7 @@ function turnLoop(chunkSide,extraDigging)
     then 
         if(extraDigging) then
         turtle.turnRight()
+        CheckBlocks(desiredBlocks)
         turtle.dig()
         turtle.forward()
         turtle.turnRight()
@@ -26,7 +39,8 @@ function turnLoop(chunkSide,extraDigging)
         return "right"
     else
         if(extraDigging) then
-        turtle.turnLeft()        
+        turtle.turnLeft() 
+        CheckBlocks(desiredBlocks)       
         turtle.dig()
         turtle.forward()
         turtle.turnLeft()
@@ -38,6 +52,7 @@ end
 function DigLine(line_length)
     for i = 1,line_length,1
     do
+        CheckBlocks(desiredBlocks)
         turtle.dig()
         turtle.forward()
     end
@@ -104,7 +119,7 @@ end
 
 
 function main()
-    DigNLayers(10,8,8)
+    DigNLayers(10,16,16)
 end
 
 
