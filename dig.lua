@@ -1,6 +1,19 @@
 local turtleSide = "right"
 
 
+function checkBlock(...)
+    local blocks = {...}
+    blockExists,block = turtle.inspect()
+    if (blockExists) then
+    for i=1,#blocks do
+        if(block.name == blocks[i])
+        then
+            error("BLOCK FOUND")
+        end
+    end
+    end
+end
+
 function turnLoop(chunkSide,extraDigging)
     if(chunkSide == "left")
     then 
