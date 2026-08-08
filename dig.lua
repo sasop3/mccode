@@ -1,9 +1,31 @@
+---@diagnostic disable: undefined-global
 local turtleSide = "right"
-local desiredBlocks = {"minecraft:end_stone"}
+local desiredBlocks = {"mythicmetals:unobtainium_ore","mythicmetals:deepslate_unobtainium_ore"} --filter blocks
+
+function Refuel(num)
+    for i=1,num do
+        local preFuel = turtle.getFuelLevel()
+        turtle.refuel()
+        local postFuel = turtle.getFuelLevel()
+        local didFuel = (postFuel - preFuel == 0)
+        if(didFuel) then
+            break
+        end
+        print("refueled #" .. i)
+    end
+        if(turtle.getFuelLevel() ~= 100000) then
+            print("Max Fuel Level Reached. Unable to refuel")
+        else if (turtle.getFuelLevel() >= 0) then
+            error("OUT OF FUEL")
+        else
+            print("No Fuel Material Found")
+        end
+    end
+end
 
 function CheckBlocks(...)
     local blocks = {...}
-    blockExists,block = turtle.inspect()
+    local blockExists,block = turtle.inspect()
     if (blockExists) then
     for i=1,#blocks do
         if(block.name == blocks[i])
@@ -15,7 +37,7 @@ function CheckBlocks(...)
 end
 
 function CheckBlocks(blocks)
-    blockExists,block = turtle.inspect()
+    local blockExists,block = turtle.inspect()
     if (blockExists) then
     for i=1,#blocks do
         if(block.name == blocks[i])
@@ -26,7 +48,7 @@ function CheckBlocks(blocks)
     end
 end
 
-function turnLoop(chunkSide,extraDigging)
+function TurnLoop(chunkSide,extraDigging)
     if(chunkSide == "left")
     then 
         if(extraDigging) then
@@ -64,9 +86,9 @@ function DigOneSquareLayer(size) -- Chunk is 16x16. to mine a single layer of a 
         DigLine(size-1)
         if (i ~= size)
         then
-            turtleSide = turnLoop(turtleSide,true)
+            turtleSide = TurnLoop(turtleSide,true)
         else
-            turtleSide = turnLoop(turtleSide,false)
+            turtleSide = TurnLoop(turtleSide,false)
         end
     end
 end
@@ -77,9 +99,9 @@ function DigOneSquareLayer(x,y)
         DigLine(y-1)
         if (i ~= x)
         then
-            turtleSide = turnLoop(turtleSide,true)
+            turtleSide = TurnLoop(turtleSide,true)
         else
-            turtleSide = turnLoop(turtleSide,false)
+            turtleSide = TurnLoop(turtleSide,false)
         end   
     end
 end
@@ -88,7 +110,7 @@ end
 function DigNLayers(num,layerSize)
     for i= 1,num,1
     do
-        turtleSide = turnLoop(turtleSide,false)
+        turtleSide = TurnLoop(turtleSide,false)
         DigOneSquareLayer(layerSize)
 
         if i ~= num then
@@ -104,7 +126,7 @@ end
 function DigNLayers(depth,x,y)
     for i= 1,depth,1
     do
-        turtleSide = turnLoop(turtleSide,false)
+        turtleSide = TurnLoop(turtleSide,false)
         DigOneSquareLayer(x,y)
 
         if i ~= depth then
@@ -118,9 +140,9 @@ function DigNLayers(depth,x,y)
 end
 
 
-function main()
-    DigNLayers(10,16,16)
+function Main()
+    DigNLayers(100,8,8)
 end
 
 
-main()
+Main()
